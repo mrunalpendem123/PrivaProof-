@@ -1,0 +1,7 @@
+
+> backend@1.0.0 dev
+> ts-node src/index.ts
+
+[dotenv@17.2.3] injecting env (0) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+Backend running on :3001
+✅ Using simplified DID/VC generation (no DIDKit required)
