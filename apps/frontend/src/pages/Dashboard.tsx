@@ -224,7 +224,7 @@ export default function DashboardPage() {
       console.log('🔍 Querying blockchain for DID:', targetDid);
       console.log('📋 Contract address:', CONTRACT_ADDRESS);
 
-      const provider = new ethers.JsonRpcProvider('http://localhost:8545');
+      const provider = new ethers.JsonRpcProvider('https://rpc.sepolia.org');
       const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
       
       console.log('📞 Calling getCredential...');
