@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
-import { digilockerAadhaarService } from './services/digilockerAadhaar';
+// DigiLocker flow removed
 
 dotenv.config();
 
@@ -70,90 +70,7 @@ app.post('/api/did/generate', async (req, res) => {
 
 
 
-// DigiLocker Aadhaar Verification (Recommended by Sandbox)
-app.post('/api/digilocker/initiate-session', async (req, res) => {
-  try {
-    console.log('📱 Initiating DigiLocker session...');
-    const sessionResult = await digilockerAadhaarService.initiateSession();
-    
-    res.json({
-      success: true,
-      message: 'DigiLocker session initiated successfully',
-      result: sessionResult
-    });
-  } catch (error: any) {
-    console.error('❌ Error initiating DigiLocker session:', error);
-    res.status(500).json({ 
-      error: 'Failed to initiate DigiLocker session',
-      details: error.message 
-    });
-  }
-});
-
-app.get('/api/digilocker/session-status/:sessionId', async (req, res) => {
-  try {
-    const { sessionId } = req.params;
-    console.log('🔍 Checking DigiLocker session status:', sessionId);
-    
-    const statusResult = await digilockerAadhaarService.checkSessionStatus(sessionId);
-    
-    res.json({
-      success: true,
-      message: 'DigiLocker session status retrieved',
-      result: statusResult
-    });
-  } catch (error: any) {
-    console.error('❌ Error checking DigiLocker session status:', error);
-    res.status(500).json({ 
-      error: 'Failed to check DigiLocker session status',
-      details: error.message 
-    });
-  }
-});
-
-app.post('/api/digilocker/verify-aadhaar', async (req, res) => {
-  try {
-    console.log('🔐 Starting DigiLocker Aadhaar verification...');
-    const verifyResult = await digilockerAadhaarService.verifyAadhaar();
-    
-    // Generate ZK proof
-    const zkProof = digilockerAadhaarService.generateZKProof(verifyResult);
-    
-    res.json({
-      success: true,
-      verified: verifyResult.verified,
-      zkProof: zkProof,
-      mode: digilockerAadhaarService.getServiceMode(),
-      message: 'DigiLocker Aadhaar verification completed'
-    });
-  } catch (error: any) {
-    console.error('❌ Error verifying Aadhaar via DigiLocker:', error);
-    res.status(500).json({ 
-      error: 'Failed to verify Aadhaar via DigiLocker',
-      details: error.message 
-    });
-  }
-});
-
-// Test DigiLocker Service
-app.post('/api/digilocker/test', async (req, res) => {
-  try {
-    console.log('🧪 Testing DigiLocker Aadhaar Service...');
-    const testResult = await digilockerAadhaarService.testService();
-    
-    res.json({
-      success: true,
-      message: 'DigiLocker Aadhaar service test completed',
-      result: testResult
-    });
-  } catch (error: any) {
-    console.error('❌ DigiLocker Aadhaar service test failed:', error);
-    res.status(500).json({ 
-      error: 'DigiLocker Aadhaar service test failed',
-      details: error.message 
-    });
-  }
-});
+// DigiLocker endpoints removed
 
 
 // Issue Verifiable Credential

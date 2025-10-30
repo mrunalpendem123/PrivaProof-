@@ -2,7 +2,7 @@ import { AnonAadhaarProvider } from '@anon-aadhaar/react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import VerifyPage from './pages/Verify';
 import DashboardPage from './pages/Dashboard';
-import DigiLockerVerify from './pages/DigiLockerVerify';
+// DigiLocker flow removed
 import { useEffect } from 'react';
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
             <div className="min-h-screen bg-gray-50">
               <Routes>
                 <Route path="/" element={<VerifyPage />} />
-                <Route path="/digilocker" element={<DigiLockerVerify />} />
+                {/** DigiLocker route removed */}
                 <Route path="/dashboard" element={<DashboardPage />} />
               </Routes>
             </div>
