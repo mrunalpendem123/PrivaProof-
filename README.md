@@ -23,7 +23,6 @@ Frontend (React) → Backend (Node.js) → iroh-node (Rust)
 - **Frontend**: React + TypeScript, Vite
 - **Backend**: Express + TypeScript, BBS+ signatures
 - **iroh-node**: Rust microservice with iroh 0.94/0.96
-- **Blockchain**: Optional Ethereum Sepolia testnet (for DID linking)
 
 ## Quick Start
 
@@ -65,7 +64,6 @@ npm install && npm run dev
 │   └── backend/      # Node.js API server
 ├── services/
 │   └── iroh-node/    # Rust iroh service
-├── contracts/        # Ethereum smart contracts (optional)
 └── docs/            # Documentation
 ```
 
