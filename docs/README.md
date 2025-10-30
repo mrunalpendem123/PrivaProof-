@@ -1,4 +1,4 @@
-# DID Infrastructure - Overnight Build
+# DID Infrastructure 
 
 Decentralized Identity infrastructure using Anon Aadhaar (ZK proofs), SpruceKit (DIDs/VCs), and Ethereum (blockchain storage).
 
