@@ -1,5 +1,8 @@
 # OS
 .DS_Store
+*.swp
+*.swo
+*~
 
 # Env
 .env
@@ -13,8 +16,15 @@
 **/.next/
 **/.turbo/
 **/.cache/
+**/vite-cache/
+
+# Rust
+**/target/
+**/Cargo.lock
+!services/iroh-node/Cargo.lock
 
 # Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -30,3 +40,11 @@ coverage/
 
 # Misc
 *.local
+/tmp/
+
+# iroh storage (local development)
+services/iroh-node/iroh-blobs/
+
+# Build artifacts
+apps/backend/dist/
+apps/frontend/dist/

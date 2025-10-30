@@ -71,3 +71,15 @@ export default defineConfig([
   },
 ])
 ```
+
+## Sepolia via Infura (Required)
+
+Create `apps/frontend/.env.local` with your Infura Project ID:
+
+```
+VITE_INFURA_API_KEY=YOUR_INFURA_PROJECT_ID
+```
+
+The Dashboard constructs the provider URL `https://sepolia.infura.io/v3/${VITE_INFURA_API_KEY}` with a fallback to `https://rpc.sepolia.org`.
+
+After setting the env file, restart the dev server so Vite picks up the new variable.

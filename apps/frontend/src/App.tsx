@@ -1,9 +1,7 @@
-import { AnonAadhaarProvider } from '@anon-aadhaar/react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import VerifyPage from './pages/Verify';
-import DashboardPage from './pages/Dashboard';
-// DigiLocker flow removed
 import { useEffect } from 'react';
+import VerifierProPage from './pages/VerifierPro';
 
 function App() {
   useEffect(() => {
@@ -21,17 +19,16 @@ function App() {
   }, []);
 
   return (
-    <AnonAadhaarProvider _appId="did-overnight-demo" _useTestAadhaar={true}>
-      <BrowserRouter>
-            <div className="min-h-screen bg-gray-50">
-              <Routes>
-                <Route path="/" element={<VerifyPage />} />
-                {/** DigiLocker route removed */}
-                <Route path="/dashboard" element={<DashboardPage />} />
-              </Routes>
-            </div>
-      </BrowserRouter>
-    </AnonAadhaarProvider>
+    <BrowserRouter>
+      <div className="min-h-screen bg-gray-950 text-gray-100">
+        <Routes>
+          <Route path="/" element={<VerifyPage />} />
+          <Route path="/verify" element={<VerifyPage />} />
+          <Route path="/verifier" element={<VerifierProPage />} />
+          <Route path="/verifier-pro" element={<VerifierProPage />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
