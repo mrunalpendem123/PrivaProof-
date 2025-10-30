@@ -33,12 +33,9 @@ Decentralized Identity infrastructure using Anon Aadhaar (ZK proofs), SpruceKit 
 
 ### Running the Application
 
-**Terminal 1: Hardhat Node (Blockchain)**
-```bash
-cd contracts
-npx hardhat node
-```
-Keep this running - it starts local Ethereum node on `localhost:8545`
+Network: Sepolia Testnet (no local node required)
+• Ensure MetaMask is on Sepolia
+• Use a public RPC like `https://rpc.sepolia.org` or your Infura endpoint
 
 **Terminal 2: Backend API**
 ```bash
@@ -54,31 +51,17 @@ npm run dev
 ```
 Runs on `localhost:5173` (or similar Vite port)
 
-### Deploy Contracts
+### Contract Address & ABI
 
-Once Hardhat node is running:
-```bash
-cd contracts
-npx hardhat run scripts/deploy.ts --network localhost
-```
+- Address is recorded in `contracts/addresses.json` (e.g., Sepolia)
+- ABI is available at `contracts/abi/DIDRegistry.json`
+- Frontend reads Sepolia via public RPC; no localhost chain needed
 
-**Important:** Update `CONTRACT_ADDRESS` in:
-- `frontend/src/pages/Verify.tsx`
-- `frontend/src/pages/Dashboard.tsx`
+### Setup MetaMask (Sepolia)
 
-Also copy the ABI from `contracts/artifacts/contracts/DIDRegistry.sol/DIDRegistry.json` to both files.
-
-### Setup MetaMask
-
-1. Open MetaMask
-2. Add Network:
-   - Network Name: Localhost 8545
-   - RPC URL: http://localhost:8545
-   - Chain ID: 31337
-   - Currency Symbol: ETH
-3. Import Account:
-   - Use private key from Hardhat node (printed in terminal)
-   - Account will have 10000 ETH for testing
+1. Open MetaMask → Select “Sepolia Test Network”
+2. If missing, add RPC: `https://rpc.sepolia.org`
+3. Fund the account with Sepolia test ETH
 
 ## 📁 Project Structure
 
@@ -109,10 +92,10 @@ did-overnight/
 
 ## 🛠️ Troubleshooting
 
-**Backend errors:** Make sure DIDKit CLI is installed and in PATH  
-**Contract deployment fails:** Check Hardhat node is running  
-**Frontend can't connect:** Verify backend on :3001, contracts node on :8545  
-**MetaMask connection issues:** Ensure localhost network is added  
+**Backend errors:** Ensure backend is running on :3001  
+**Contract issues:** Verify Sepolia RPC and contract address in the app  
+**Frontend can't connect:** Check backend on :3001  
+**MetaMask connection issues:** Ensure Sepolia is selected  
 
 ## 📚 Next Steps
 

@@ -54,30 +54,26 @@ did-overnight/
 └── start.sh          # One-command startup
 ```
 
-## 🔧 Manual Commands
+## 🔧 Manual Commands (Sepolia)
 
 If scripts don't work:
 
 ```bash
-# Terminal 1: Hardhat
-cd contracts && npx hardhat node
-
-# Terminal 2: Backend  
+# Backend  
 cd backend && npm run dev
 
-# Terminal 3: Frontend
+# Frontend
 cd frontend && npm run dev
 
-# Deploy contracts
-cd contracts && npx hardhat run scripts/deploy.ts --network localhost
+# Chain: Sepolia (no local node). Ensure MetaMask is on Sepolia and RPC is https://rpc.sepolia.org
 ```
 
 ## ⚠️ Troubleshooting
 
 **Backend errors**: Make sure DIDKit is installed and in PATH  
-**Contract deployment fails**: Check Hardhat node is running on :8545  
+**Contract issues**: Verify Sepolia RPC and address  
 **Frontend can't connect**: Verify backend on :3001  
-**MetaMask issues**: Add localhost network (Chain ID: 31337)  
+**MetaMask issues**: Ensure Sepolia is selected  
 
 ## 🎉 What You'll Have
 
