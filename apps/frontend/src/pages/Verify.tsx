@@ -434,12 +434,6 @@ export default function VerifyPage() {
         <p className="text-gray-600 mb-4">Create a decentralized identity linked to zero-knowledge Aadhaar proof</p>
             <div className="flex justify-center space-x-4">
               <a
-                href="/digilocker"
-                className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg"
-              >
-                🏛️ DigiLocker Verification
-              </a>
-              <a
                 href="/dashboard"
                 className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
               >
