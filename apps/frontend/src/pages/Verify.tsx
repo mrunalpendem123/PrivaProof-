@@ -7,32 +7,73 @@ export default function VerifyPage() {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [username, setUsername] = useState('');
-  const [aadhaarNumber, setAadhaarNumber] = useState('');
+  const [aadhaarLast4, setAadhaarLast4] = useState('');
   const [name, setName] = useState('');
+  const [dob, setDob] = useState('');
+  const [sessionId, setSessionId] = useState('');
+  const [otp, setOtp] = useState('');
+  const [otpRequired, setOtpRequired] = useState(false);
   const navigate = useNavigate();
 
-  // Step 1: Simulate KYC/Aadhaar verification
-  const verifyKYC = async () => {
-    if (!aadhaarNumber || !name) {
-      alert('Please enter Aadhaar number and name');
+  // Step 1a: Request OTP
+  const requestOTP = async () => {
+    if (!aadhaarLast4 || !name || !dob) {
+      alert('Please enter last 4 digits of Aadhaar, name, and date of birth');
+      return;
+    }
+    if (aadhaarLast4.length !== 4) {
+      alert('Please enter exactly 4 digits');
       return;
     }
     setLoading(true);
     try {
-      // Simulate KYC verification
-      const res = await fetch('/api/kyc/start', {
+      const res = await fetch('/api/kyc/simulate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ aadhaarNumber, name })
+        body: JSON.stringify({ name, dob, aadhaar_last4: aadhaarLast4 })
       });
       if (!res.ok) throw new Error('KYC verification failed');
       const data = await res.json();
-      console.log('✅ KYC verified:', data);
-      setStep(2);
+      console.log('✅ OTP sent:', data);
+      if (data.step === 'otp_required') {
+        setSessionId(data.sessionId);
+        setOtpRequired(true);
+        alert(`OTP sent! For testing, check browser console or backend logs.\nMasked Aadhaar: ${data.maskedAadhaar}`);
+      }
     } catch (error) {
       console.error('KYC error:', error);
-      alert('KYC verification failed. Using simulation mode.');
-      setStep(2); // Continue anyway in simulation mode
+      alert('KYC verification failed.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Step 1b: Verify OTP
+  const verifyOTP = async () => {
+    if (!otp || !sessionId) {
+      alert('Please enter OTP');
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch('/api/kyc/simulate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, otp })
+      });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'OTP verification failed');
+      }
+      const data = await res.json();
+      console.log('✅ KYC verified:', data);
+      if (data.verified) {
+        alert('KYC verification successful!');
+        setStep(2);
+      }
+    } catch (error: any) {
+      console.error('OTP verification error:', error);
+      alert(`OTP verification failed: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -175,33 +216,82 @@ export default function VerifyPage() {
           <div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
             <h2 className="text-2xl font-semibold mb-4 text-cyan-400">Step 1: KYC Verification</h2>
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">Aadhaar Number</label>
-                <input
-                  type="text"
-                  value={aadhaarNumber}
-                  onChange={(e) => setAadhaarNumber(e.target.value)}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-cyan-500 focus:outline-none"
-                  placeholder="Enter Aadhaar number"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Full Name</label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-cyan-500 focus:outline-none"
-                  placeholder="Enter full name"
-                />
-              </div>
-              <button
-                onClick={verifyKYC}
-                disabled={loading}
-                className="w-full px-6 py-3 bg-cyan-600 hover:bg-cyan-700 rounded-lg font-semibold disabled:opacity-50"
-              >
-                {loading ? 'Verifying...' : 'Verify KYC'}
-              </button>
+              {!otpRequired ? (
+                <>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Last 4 Digits of Aadhaar</label>
+                    <input
+                      type="text"
+                      value={aadhaarLast4}
+                      onChange={(e) => setAadhaarLast4(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                      className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-cyan-500 focus:outline-none"
+                      placeholder="Enter last 4 digits"
+                      maxLength={4}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Full Name</label>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-cyan-500 focus:outline-none"
+                      placeholder="Enter full name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Date of Birth</label>
+                    <input
+                      type="date"
+                      value={dob}
+                      onChange={(e) => setDob(e.target.value)}
+                      className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-cyan-500 focus:outline-none"
+                    />
+                  </div>
+                  <button
+                    onClick={requestOTP}
+                    disabled={loading}
+                    className="w-full px-6 py-3 bg-cyan-600 hover:bg-cyan-700 rounded-lg font-semibold disabled:opacity-50"
+                  >
+                    {loading ? 'Sending OTP...' : 'Request OTP'}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div className="p-4 bg-green-900/20 border border-green-500/30 rounded-lg mb-4">
+                    <p className="text-sm text-green-400">OTP sent to registered mobile number</p>
+                    <p className="text-xs text-gray-400 mt-1">Check browser console or backend logs for OTP</p>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Enter OTP</label>
+                    <input
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                      className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-cyan-500 focus:outline-none text-center text-2xl tracking-widest"
+                      placeholder="000000"
+                      maxLength={6}
+                    />
+                  </div>
+                  <button
+                    onClick={verifyOTP}
+                    disabled={loading || otp.length !== 6}
+                    className="w-full px-6 py-3 bg-cyan-600 hover:bg-cyan-700 rounded-lg font-semibold disabled:opacity-50"
+                  >
+                    {loading ? 'Verifying...' : 'Verify OTP'}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setOtpRequired(false);
+                      setOtp('');
+                      setSessionId('');
+                    }}
+                    className="w-full px-4 py-2 text-gray-400 hover:text-gray-200 text-sm"
+                  >
+                    Back to KYC Details
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}
