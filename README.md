@@ -1,6 +1,6 @@
 # Decentralized Identity System: DID + Zero-Knowledge Proofs + iroh P2P Network
 
-A production-ready decentralized identity platform that solves identity storage and verification flexibility problems using real cryptographic proofs and peer-to-peer distribution.
+A production-ready decentralized identity platform that solves the critical problems of modern identity systems: centralized storage vulnerabilities, inflexible verification that forces unnecessary data sharing, and lack of user control. The system combines W3C-standard Decentralized Identifiers (DIDs) with zero-knowledge proofs (BBS+ signatures) to enable privacy-preserving selective disclosure—prove you're "18+" without revealing your date of birth. Identity credentials are distributed via the iroh P2P network using real public relays, ensuring no central point of failure. Users control their Ed25519 cryptographic keys and can verify themselves without intermediaries, while verifiers can query by human-friendly usernames and cryptographically verify proofs. With private relays coming soon for India, the platform provides low-latency, data-sovereign identity verification for Indian users.
 
 ---
 
